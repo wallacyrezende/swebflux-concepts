@@ -1,0 +1,23 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: swebflux
+  r2dbc:
+    url: r2dbc:h2:mem://localhost:8081/swebflux
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      port: 8081
+      path: /h2-console
+  datasource:
+    url: jdbc:h2:mem:swebflux;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+
+springdoc:
+  api-docs:
+    path: /api-docs
