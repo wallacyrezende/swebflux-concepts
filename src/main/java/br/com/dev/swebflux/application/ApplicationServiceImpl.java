@@ -3,6 +3,9 @@ package br.com.dev.swebflux.application;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+
+import java.time.Duration;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
@@ -39,5 +42,12 @@ public class ApplicationServiceImpl implements ApplicationService {
                     return movie;
                 })
                 .flatMap(movie -> repository.save(movie));
+    }
+
+    @Override
+    public Flux<Tuple2<Long, Movie>> getAllEvents() {
+        Flux<Long> interval = Flux.interval(Duration.ofSeconds(10));
+        Flux<Movie> events = repository.findAll();
+        return Flux.zip(interval, events);
     }
 }

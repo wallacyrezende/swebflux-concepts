@@ -2,6 +2,7 @@ package br.com.dev.swebflux.application;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
 
 @RestController
 public class ApplicationController {
@@ -29,9 +31,9 @@ public class ApplicationController {
         return service.save(dto);
     }
 
-    @Operation( summary = "Get movies" )
+    @Operation( summary = "Get all movies" )
     @GetMapping("/movies")
-    public Flux<Movie> get() {
+    public Flux<Movie> getAll() {
         return service.getMovies();
     }
 
@@ -46,5 +48,11 @@ public class ApplicationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> delete(@PathVariable Integer id) {
         return service.delete(id);
+    }
+
+    @Operation( summary = "Get events stream of the movies" )
+    @GetMapping(value = "/movies/events", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Tuple2<Long, Movie>> getAllEvents() {
+        return service.getAllEvents();
     }
 }
