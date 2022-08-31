@@ -4,10 +4,6 @@ server:
 spring:
   application:
     name: swebflux
-  r2dbc:
-    url: r2dbc:h2:mem://localhost:8081/swebflux
-    username: sa
-    password:
   h2:
     console:
       enabled: true
